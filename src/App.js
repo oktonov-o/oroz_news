@@ -5,6 +5,8 @@ import {
 import './App.css';
 import NewsList from "./components/NewsList";
 import NewsDetail from "./components/NewsDetail";
+import { Container } from '@mui/material';
+
 
 const router = createBrowserRouter([
   {
@@ -18,7 +20,9 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <Container maxWidth="md">
+      <RouterProvider router={router} />
+    </Container>
   );
 }
 

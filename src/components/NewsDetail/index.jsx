@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import './styles.css';
+import { Button, Typography } from '@mui/material'
 
 const NewsDetail = () => {
   const { id } = useParams();
@@ -17,20 +19,21 @@ const NewsDetail = () => {
   }, [id]);
 
   return (
-    <div>
+    <div className='newsDetailContainer'>
         <h1>News Detail</h1>
-        <Link to="/">Back to all news</Link>
+        <Button variant="contained" component={Link} to="/">Back to all News</Button>
         {
             isLoading
             ? <h3>Loading...</h3>
-            : <>
-                <p>URL: <a href={newsItem.url} target="_blank" rel="noopener noreferrer">{newsItem.url}</a></p>
+            : <div className='detailCard'>
                 <h2>{newsItem.title}</h2>
-                <p>Date: {new Date(newsItem.time * 1000).toLocaleDateString()}</p>
-                <p>Author: {newsItem.by}</p>
-            </>
+                <Typography>Source: <a href={newsItem.url} target="_blank" rel="noopener noreferrer">{newsItem.url}</a></Typography>
+                <div className='info'>
+                  <Typography>Date: {new Date(newsItem.time * 1000).toLocaleDateString()}</Typography>
+                  <Typography>Author: {newsItem.by}</Typography>
+                </div>
+            </div>
         }
-        {/* Render other relevant fields as needed */}
     </div>
   );
 };

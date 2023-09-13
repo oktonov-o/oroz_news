@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './styles.css';
+import { Button, List, ListItem, ListItemText } from '@mui/material'
+
 
 const NewsList = () => {
     const [news, setNews] = useState([]);
@@ -22,13 +25,8 @@ const NewsList = () => {
     };
   
     useEffect(() => {
-      // Fetch news initially
       fetchNews();
-  
-      // Fetch news every minute (60,000 milliseconds)
       const intervalId = setInterval(fetchNews, 60000);
-  
-      // Cleanup the interval on component unmount
       return () => clearInterval(intervalId);
     }, []);
 
@@ -38,22 +36,32 @@ const NewsList = () => {
     };
 
   return (
-    <div>
+    <div className='allNewsContainer'>
       <h1>All News</h1>
-      <button onClick={handleRefresh}>Refresh</button>
+      <Button variant="contained" onClick={handleRefresh}>Refresh</Button>
       {isLoading
         ? <h2>Loading...</h2>
-        : <ul>
-            {news.map((item, index) => (
-            <li key={item.id}>
-                <p>{index}</p>
-                <Link to={`/news/${item.id}`}>{item.title}</Link>
-                <p>Score: {item.score}</p>
-                <p>Author: {item.by}</p>
-                <p>Date: {new Date(item.time * 1000).toLocaleDateString()}</p>
-            </li>
+        : <List>
+            {news.map((item) => (
+              <Link to={`/news/${item.id}`} key={item.id} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <ListItem
+                  sx={{
+                    border: '1px solid #ccc',
+                    marginBottom: '10px', // Adjust the spacing as needed
+                    padding: '10px', // Adjust the padding as needed
+                    borderRadius: '10px', // Adjust the border radius as needed
+                    '&:hover': {
+                      backgroundColor: '#f0f0f0', // Adjust the hover background color as needed
+                    }
+                  }}>
+                  <ListItemText
+                    primary={item.title}
+                    secondary={`Author: ${item.by} | Score: ${item.score} | Date: ${new Date(item.time * 1000).toLocaleDateString()}`}
+                  />
+                </ListItem>
+              </Link>
             ))}
-        </ul>
+        </List>
         }
     </div>
   );
